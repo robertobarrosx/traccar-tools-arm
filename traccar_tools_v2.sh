@@ -102,24 +102,25 @@ rm -f traccar.run README.txt traccar-linux-*.zip* upgrade_traccar.tmp
             show_menu;
         ;;
         4) clear;
-option_picked "Option 4 Picked";
-# Download Traccar
-curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/traccar/traccar/releases/latest > upgrade_traccar.tmp
-sed -i 's/tag/download/g' upgrade_traccar.tmp
-sed -i 's|$|/traccar-linux-arm-*.zip|g' upgrade_traccar.tmp
-version=$(grep -E -o "v.{0,4}" upgrade_traccar.tmp | tail -c +2)
-awk -v ver="$version" '{gsub("/traccar-linux-arm-\\*\\.zip", "/traccar-linux-arm-"ver".zip")}1' upgrade_traccar.tmp > tmpfile && mv tmpfile upgrade_traccar.tmp
+	option_picked "Option 4 Picked";
+	# Download Traccar
+	curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/traccar/traccar/releases/latest > upgrade_traccar.tmp
+	sed -i 's/tag/download/g' upgrade_traccar.tmp
+	version=$(grep -E -o "v.{0,4}" upgrade_traccar.tmp | tail -c +2)
+	filename="traccar-linux-arm-${version}.zip"
+	url="https://github.com/traccar/traccar/releases/download/${version}/${filename}"
 
 while true; do
     echo "Latest available version:"
-    grep -E -o ".{0,22}z.{0,4}" upgrade_traccar.tmp
+    echo "${filename}"
     read -p "Do you wish to download Traccar? (y/n) " yn
     case $yn in
-        [Yy]* ) wget -i upgrade_traccar.tmp; break;;
+        [Yy]* ) wget ${url}; break;;
         [Nn]* ) rm -f traccar.run README.txt traccar-linux-*.zip* upgrade_traccar.tmp; break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
+
 
 rm -f upgrade_traccar.tmp
 
