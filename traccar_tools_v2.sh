@@ -107,7 +107,7 @@ rm -f traccar.run README.txt traccar-linux-*.zip* upgrade_traccar.tmp
 	curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/traccar/traccar/releases/latest > upgrade_traccar.tmp
 	sed -i 's/tag/download/g' upgrade_traccar.tmp
 	version_with_v=$(grep -E -o "v[0-9]+\.[0-9]+" upgrade_traccar.tmp)
-	version=$(echo ${version_with_v} | sed 's/^v//')
+	version=$(grep -E -o "v.{0,4}" upgrade_traccar.tmp | tail -c +2)
 	filename="traccar-linux-arm-${version}.zip"
 	url="https://github.com/traccar/traccar/releases/download/${version_with_v}/${filename}"
 
