@@ -102,9 +102,9 @@ rm -f traccar.run README.txt traccar-linux-*.zip* upgrade_traccar.tmp
             show_menu;
         ;;
         4) clear;
-            	option_picked "Option 4 Picked";
-		# Download Traccar
-		curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/traccar/traccar/releases/latest > upgrade_traccar.tmp
+option_picked "Option 4 Picked";
+# Download Traccar
+curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/traccar/traccar/releases/latest > upgrade_traccar.tmp
 sed -i 's/tag/download/g' upgrade_traccar.tmp
 sed -i 's|$|/traccar-linux-arm-*.zip|g' upgrade_traccar.tmp
 version=$(grep -E -o "v.{0,4}" upgrade_traccar.tmp | tail -c +2)
