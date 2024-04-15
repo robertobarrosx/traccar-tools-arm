@@ -122,6 +122,7 @@ while true; do
 done
 
 
+
 rm -f upgrade_traccar.tmp
 
 
